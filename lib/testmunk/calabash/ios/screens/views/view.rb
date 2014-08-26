@@ -1,6 +1,7 @@
 require 'calabash-cucumber'
 require 'calabash-cucumber/operations'
 require 'testmunk/calabash/ios/screens/utils'
+require 'testmunk/calabash/ios/logger'
 
 
 module Testmunk
@@ -37,7 +38,7 @@ module Testmunk
       def swipe(dir, options={:query => @uiquery})
         wait_for_element_exist(options[:query]) unless options[:query].nil?
 
-        log('swipe', "#{dir}, opts: #{options}")
+        Testmunk::Log::log('swipe', "#{dir}, opts: #{options}")
 
         super dir, options
 
@@ -47,7 +48,7 @@ module Testmunk
       def touch(uiquery = @uiquery, options={})
         wait_for_element_exist(uiquery, {:timeout => 15}) unless uiquery.nil?
 
-        log('touch', "#{uiquery}, opts: #{options}")
+        Testmunk::Log::log('touch', "#{uiquery}, opts: #{options}")
 
         @driver.send :touch, uiquery, options
       end
@@ -55,7 +56,7 @@ module Testmunk
       def wait_for_element_exist(uiquery, wait_opts={:timeout => 30})
         uiquery = uiquery[:query] if uiquery.is_a?(Hash)
 
-        log('wait for', "#{uiquery}, opts: #{wait_opts}")
+        Testmunk::Log::log('wait for', "#{uiquery}, opts: #{wait_opts}")
 
         wait_for_elements_exist([uiquery], wait_opts)
       end
@@ -65,7 +66,7 @@ module Testmunk
       end
 
       def sleep(seconds)
-        log('sleeping for', "#{seconds} seconds")
+        Testmunk::Log::log('sleeping for', "#{seconds} seconds")
 
         Kernel.sleep seconds
       end
@@ -93,7 +94,7 @@ module Testmunk
       def type_text(text)
         wait_for_keyboard
 
-        log('type text', "text: #{text}")
+        Testmunk::Log::log('type text', "text: #{text}")
 
         keyboard_enter_text(text)
       end
@@ -102,7 +103,7 @@ module Testmunk
         touch(uiquery)
         wait_for_keyboard
 
-        log('enter text', "#{uiquery}, text: #{text}")
+        Testmunk::Log::log('enter text', "#{uiquery}, text: #{text}")
 
         keyboard_enter_text(text)
       end

@@ -1,5 +1,6 @@
 require 'calabash-cucumber'
 require 'calabash-cucumber/operations'
+require 'testmunk/calabash/ios/logger'
 require 'testmunk/calabash/ios/screens/views/view'
 
 
@@ -67,7 +68,7 @@ module Testmunk
       end
 
       def await(wait_opts={:timeout => 40})
-        log('wait for', "#{self.class.name} screen, opts: #{wait_opts}")
+        Testmunk::Log::log('wait for', "#{self.class.name} screen, opts: #{wait_opts}")
 
         wait_for_elements_exist(traits, wait_opts)
       end
