@@ -10,7 +10,7 @@ module Testmunk
 
 
       def initialize(driver, view_id)
-        super driver, "EditText id:'#{view_id}'"
+        super driver, "* id:'#{view_id}'"
         @view_id = view_id
       end
 
