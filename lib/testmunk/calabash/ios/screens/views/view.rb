@@ -91,27 +91,6 @@ module Testmunk
         scroll_until_exists(scroll_view, @uiquery, direction, max_times)
       end
 
-      def type_text(text)
-        wait_for_keyboard
-
-        Testmunk::Log::log('type text', "text: #{text}")
-
-        keyboard_enter_text(text)
-      end
-
-      def enter_text_into(uiquery, text)
-        touch(uiquery)
-        wait_for_keyboard
-
-        Testmunk::Log::log('enter text', "#{uiquery}, text: #{text}")
-
-        keyboard_enter_text(text)
-      end
-
-      def enter_text(text)
-        enter_text_into @uiquery, text
-      end
-
       def keyboard_enter_text(text)
         count = 1
         while true do
