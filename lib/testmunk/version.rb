@@ -6,3 +6,8 @@ module Testmunk
   module Android
   end
 end
+
+module Testmunk
+  module IOS
+  end
+end
