@@ -1,7 +1,7 @@
 require 'calabash-cucumber'
 require 'calabash-cucumber/operations'
-require 'testmunk/calabash/ios/screens/utils'
-require 'testmunk/calabash/ios/logger'
+require 'testmunk/calabash/logger'
+require 'testmunk/calabash/ios/utils/utils'
 
 
 module Testmunk
@@ -9,6 +9,7 @@ module Testmunk
 
     class View
       include Calabash::Cucumber::Operations
+      include Utils
 
       attr_accessor :uiquery
 

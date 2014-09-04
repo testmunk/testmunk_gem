@@ -1,6 +1,7 @@
 require 'calabash-cucumber'
 require 'calabash-cucumber/operations'
-require 'testmunk/calabash/ios/logger'
+require 'testmunk/calabash/logger'
+require 'testmunk/calabash/ios/utils/utils'
 require 'testmunk/calabash/ios/screens/views/view'
 
 
@@ -9,6 +10,8 @@ module Testmunk
 
     class Screen < View
       include Calabash::Cucumber::Operations
+      include Utils
+
 
       def initialize(driver)
         @driver = driver

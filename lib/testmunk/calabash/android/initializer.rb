@@ -1,2 +1,2 @@
-require 'testmunk/calabash/android/logger'
+require 'testmunk/calabash/logger'
 require 'testmunk/utils/hash'
