@@ -10,10 +10,10 @@ module Testmunk
 
 
       def initialize(driver, view_id)
-        if view_id.include? 'id'
-          super driver, "* id:'#{view_id}'"
-        else
+        if view_id.include? 'id:'
           super driver, view_id
+        else
+          super driver, "* id:'#{view_id}'"
         end
 
         @view_id = view_id
