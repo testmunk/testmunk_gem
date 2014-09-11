@@ -92,12 +92,12 @@ module Testmunk
         scroll_until_exists(scroll_view, @uiquery, direction, max_times)
       end
 
-      def keyboard_enter_text(text)
+      def keyboard_enter_text(text, opts={:wait_after_char => 0.05})
         count = 1
         while true do
           begin
             text.each_char do |char|
-              @driver.send :keyboard_enter_char, char, {:wait_after_char => 0.05}
+              @driver.send :keyboard_enter_char, char, opts
             end
             return
           rescue Exception => e

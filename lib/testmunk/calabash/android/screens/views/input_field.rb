@@ -25,24 +25,25 @@ module Testmunk
       end
 
       def clear
+        await
         $logger.info('clear text') { "#{uiquery}" }
 
         clear_text(@uiquery)
       end
 
       def insert_text(text)
-        await
         clear
-
         open
         enter_text(@uiquery, text)
       end
 
       def do_send
+        await
         perform_action('press_user_action_button', 'send')
       end
 
       def do_done
+        await
         perform_action('press_user_action_button', 'done')
       end
     end

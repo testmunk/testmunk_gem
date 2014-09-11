@@ -6,8 +6,7 @@ module Testmunk
 
     class Label < View
       def to_s
-        wait_for_elements_exist([uiquery], {:timeout => 5})
-
+        await
         query("#{uiquery}", :text)[0].to_s
       end
 
