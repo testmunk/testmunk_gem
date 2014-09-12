@@ -13,7 +13,7 @@ module Testmunk
         keyboard_enter_text(text)
       end
 
-      def insert_text_into(uiquery, text, opts={:wait_after_char => 0.05})
+      def insert_text_into(uiquery, text, opts={:char_by_char => false})
         touch(uiquery)
         wait_for_keyboard
 
@@ -22,8 +22,8 @@ module Testmunk
         keyboard_enter_text(text, opts)
       end
 
-      def insert_text(text, opts={:wait_after_char => 0.01})
-        insert_text_into @uiquery, text, opts
+      def insert_text(text)
+        insert_text_into @uiquery, text, opts={:char_by_char => false}
       end
     end
 

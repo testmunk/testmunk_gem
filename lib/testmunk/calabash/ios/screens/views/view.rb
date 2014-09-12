@@ -92,19 +92,25 @@ module Testmunk
         scroll_until_exists(scroll_view, @uiquery, direction, max_times)
       end
 
-      def keyboard_enter_text(text, opts={:wait_after_char => 0.05})
-        count = 1
-        while true do
-          begin
-            text.each_char do |char|
-              @driver.send :keyboard_enter_char, char, opts
+      def keyboard_enter_text(text, opts={:char_by_char => false, :wait_after_char => 0.05})
+        await
+
+        if opts[:char_by_char]
+          count = 1
+          while true do
+            begin
+              text.each_char do |char|
+                @driver.send :keyboard_enter_char, char, opts
+              end
+              return
+            rescue Exception => e
+              raise e if count > 10
+              keyboard_enter_char 'Delete'
             end
-            return
-          rescue Exception => e
-            raise e if count > 10
-            keyboard_enter_char 'Delete'
+            count += 1
           end
-          count += 1
+        else
+          @driver.send :keyboard_enter_text, text
         end
       end
 
