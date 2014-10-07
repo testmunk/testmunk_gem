@@ -21,3 +21,5 @@ tmp
 *.a
 mkmf.log
 .idea
+
+lib/testmunk/calabash/android/app-app_conf.rb
