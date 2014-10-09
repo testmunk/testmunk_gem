@@ -6,6 +6,11 @@ module Testmunk
     module Utils
       include Calabash::Cucumber::Operations
 
+        def is_ios6_version?
+            version = launcher.ios_version
+            version.start_with?('6')
+        end
+      
       def is_iphone?
         if ENV['DEVICE_TARGET'] == "simulator"
           server_version['simulator_device'] =~ /iPhone(.*)/
