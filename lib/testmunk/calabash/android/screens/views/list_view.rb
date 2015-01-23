@@ -53,6 +53,12 @@ module Testmunk
 
         return index, element
       end
+
+      # Params:
+      # - dir: :up, :down
+      def scroll(dir)
+        @driver.send :scroll, @uiquery, dir
+      end
     end
   end
 end
