@@ -99,6 +99,15 @@ module Testmunk
         puts cmd
         system cmd
       end
+
+      def self.calabash_console(uuid, endpoint, bundle_id, bundle_path)
+        cmd = "DEVICE_ENDPOINT=#{endpoint} DEVICE_TARGET=#{uuid} " \
+        "APP_BUNDLE_PATH=#{bundle_path} BUNDLE_ID=#{bundle_id} " \
+        "calabash-ios console"
+
+        puts cmd
+        system cmd
+      end
     end
   end
 end

@@ -15,6 +15,30 @@ feature_file = nil
 # parse arguments
 # tm -o install -f file.ipa
 
+class YAMLConf
+  attr_accessor :uuid, :endpoint, :bundle_id, :bundle_path
+
+  class Device
+    attr_accessor :uuid, :endpoint
+
+    def initialize(config)
+      @uuid = config['uuid']
+      @endpoint = config['endpoint']
+    end
+  end
+
+  def initialize(path)
+    @config = YAML.load_file(path)
+
+    @bundle_id = @config['run']['bundle_id']
+    @bundle_path = @config['run']['bundle_path']
+  end
+
+  def device(device)
+    Device.new(@config['run']['devices'][device])
+  end
+end
+
 ARGV.options do |opts|
   opts.on('-a', '--app=val', '.ipa file', String) { |val| app = val }
   opts.on('-f', '--feature-file=val', '.feature file', String) { |val| feature_file = val }
@@ -38,11 +62,15 @@ case option
   when 'install'
     Testmunk::IOS::Utils::install(app) if app
   when 'run'
-    config = YAML.load_file("#{Dir.pwd}/.tm.yaml")
-    uuid = config['run']['devices'][device]['uuid']
-    endpoint = config['run']['devices'][device]['endpoint']
-    bundle_id = config['run']['bundle_id']
-    bundle_path = config['run']['bundle_path']
-
-    Testmunk::IOS::Utils::run(uuid, endpoint, bundle_id, bundle_path, feature_file)
+    yaml = YAMLConf.new("#{Dir.pwd}/.tm.yaml")
+    Testmunk::IOS::Utils::run(yaml.device(device).uuid,
+                              yaml.device(device).endpoint,
+                              yaml.bundle_id,
+                              yaml.bundle_path, feature_file)
+  when 'console'
+    yaml = YAMLConf.new("#{Dir.pwd}/.tm.yaml")
+    Testmunk::IOS::Utils::calabash_console(yaml.device(device).uuid,
+                                           yaml.device(device).endpoint,
+                                           yaml.bundle_id,
+                                           yaml.bundle_path)
 end
