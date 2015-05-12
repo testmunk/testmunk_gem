@@ -90,6 +90,15 @@ module Testmunk
       def self.install(file)
         system "ideviceinstaller -i #{file}"
       end
+
+      def self.run(uuid, endpoint, bundle_id, bundle_path, feature='')
+        cmd = "DEVICE_ENDPOINT=#{endpoint} DEVICE_TARGET=#{uuid} " \
+        "APP_BUNDLE_PATH=#{bundle_path} BUNDLE_ID=#{bundle_id} " \
+        "cucumber #{feature}"
+
+        puts cmd
+        system cmd
+      end
     end
   end
 end
