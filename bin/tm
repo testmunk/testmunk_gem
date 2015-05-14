@@ -2,21 +2,13 @@
 
 require 'optparse'
 require 'yaml'
-# require 'testmunk/calabash/ios/utils/utils'
 require_relative '../lib/testmunk/calabash/ios/utils/utils'
+require_relative '../lib/testmunk/calabash/android/utils/utils'
 
 $stderr.sync = true
 
-option = nil
-app = nil
-device = nil
-feature_file = nil
-
-# parse arguments
-# tm -o install -f file.ipa
-
 class YAMLConf
-  attr_accessor :uuid, :endpoint, :bundle_id, :bundle_path
+  attr_accessor :uuid, :endpoint, :bundle_id, :bundle_path, :app
 
   class Device
     attr_accessor :uuid, :endpoint
@@ -24,6 +16,7 @@ class YAMLConf
     def initialize(config)
       @uuid = config['uuid']
       @endpoint = config['endpoint']
+      @app = config['app']
     end
   end
 
@@ -39,38 +32,92 @@ class YAMLConf
   end
 end
 
-ARGV.options do |opts|
-  opts.on('-a', '--app=val', '.ipa file', String) { |val| app = val }
-  opts.on('-f', '--feature-file=val', '.feature file', String) { |val| feature_file = val }
-  opts.on('-o', '--opt=val', 'Options: resign, install', String) { |val| option = val }
-  opts.on('-d', '--device=val', 'Device', String) { |val| device = val }
+def load_conf
+  YAMLConf.new("#{Dir.pwd}/.tm.yaml")
+end
+
+def examples
+  "\nCommand line examples:\n"\
+  "tm -o install -a builds/ios_app.ipa\n"\
+  "tm -o install -a builds/android_app.apk\n"\
+  "tm -o resign -a builds/app.ipa\n"\
+  "tm -o console -d ipad\n"\
+  "tm -o run -d iphone-4s -f features/test.feature\n"
+end
+
+def config_example
+  ".tm.yaml example: \n"\
+  "run:
+ platform: ios
+ devices:
+  ipad:
+   uuid: 1d3f8996d77803c7890558f6d69c6bfe6ecf9e9b
+   endpoint: http://192.168.109.25:37265
+  iphone-4s:
+   uuid: a05d4e68e576ec3cfb2a53fb363f2fd6d0e1c063
+   endpoint: http://192.168.109.23:37265
+ bundle_path: builds/ios_app.ipa
+ bundle_id: com.testmunk.all"
+end
+
+def show_help
+  puts examples
+  puts "\n"
+  puts config_example
+end
+
+def not_implemented
+  raise NotImplementedError
+end
+
+
+options = {}
+optparse = OptionParser.new do |opts|
+  opts.on('-a', '--app=val', '.ipa file', String) { |val| options['app'] = val }
+  opts.on('-f', '--feature-file=val', '.feature file', String) { |val| options['feature_file'] = val }
+  opts.on('-o', '--opt=val', 'Options: resign, install', String) { |val| options['option'] = val }
+  opts.on('-d', '--device=val', 'Device', String) { |val| options['device'] = val }
 
   opts.on('-h', '--help', 'Displays Help') do
     puts opts
+    show_help
     exit
   end
-
-  opts.parse!
 end
 
-case option
+optparse.parse!
+
+case options['option']
   when 'resign'
     Testmunk::IOS::Utils::resign(app, ENV['TM_MOBILE_PROVISION'],
                                  ENV['TM_WILDCARD'],
                                  ENV['TM_IOS_CERTIFICATE'],
                                  ENV['TM_BUNDLE_ID']) if app
+
   when 'install'
-    Testmunk::IOS::Utils::install(app) if app
+    if options['app'].include? 'apk'
+        Testmunk::Android::Utils::install(app)
+    else
+        Testmunk::IOS::Utils::install(app)
+    end
+
+  when 'uninstall'
+      not_implemented
+
   when 'run'
-    yaml = YAMLConf.new("#{Dir.pwd}/.tm.yaml")
-    Testmunk::IOS::Utils::run(yaml.device(device).uuid,
-                              yaml.device(device).endpoint,
-                              yaml.bundle_id,
-                              yaml.bundle_path, feature_file)
+    conf = load_conf
+    Testmunk::IOS::Utils::run(conf.device(device).uuid,
+                              conf.device(device).endpoint,
+                              conf.bundle_id,
+                              conf.bundle_path, options['feature_file'])
+
   when 'console'
-    yaml = YAMLConf.new("#{Dir.pwd}/.tm.yaml")
-    Testmunk::IOS::Utils::calabash_console(yaml.device(device).uuid,
-                                           yaml.device(device).endpoint,
-                                           yaml.bundle_id,
-                                           yaml.bundle_path)
+    conf = load_conf
+    Testmunk::IOS::Utils::calabash_console(conf.device(device).uuid,
+                                           conf.device(device).endpoint,
+                                           conf.bundle_id,
+                                           conf.bundle_path)
+  else
+    puts optparse
+    show_help
 end
