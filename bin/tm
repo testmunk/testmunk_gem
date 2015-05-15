@@ -89,16 +89,16 @@ optparse.parse!
 
 case options['option']
   when 'resign'
-    Testmunk::IOS::Utils::resign(app, ENV['TM_MOBILE_PROVISION'],
+    Testmunk::IOS::Utils::resign(options['app'], ENV['TM_MOBILE_PROVISION'],
                                  ENV['TM_WILDCARD'],
                                  ENV['TM_IOS_CERTIFICATE'],
-                                 ENV['TM_BUNDLE_ID']) if app
+                                 ENV['TM_BUNDLE_ID']) if options['app']
 
   when 'install'
     if options['app'].include? 'apk'
-        Testmunk::Android::Utils::install(app)
+        Testmunk::Android::Utils::install(options['app'])
     else
-        Testmunk::IOS::Utils::install(app)
+        Testmunk::IOS::Utils::install(options['app'])
     end
 
   when 'uninstall'
@@ -106,15 +106,15 @@ case options['option']
 
   when 'run'
     conf = load_conf
-    Testmunk::IOS::Utils::run(conf.device(device).uuid,
-                              conf.device(device).endpoint,
+    Testmunk::IOS::Utils::run(conf.device(options['device']).uuid,
+                              conf.device(options['device']).endpoint,
                               conf.bundle_id,
                               conf.bundle_path, options['feature_file'])
 
   when 'console'
     conf = load_conf
-    Testmunk::IOS::Utils::calabash_console(conf.device(device).uuid,
-                                           conf.device(device).endpoint,
+    Testmunk::IOS::Utils::calabash_console(conf.device(options['device']).uuid,
+                                           conf.device(options['device']).endpoint,
                                            conf.bundle_id,
                                            conf.bundle_path)
   else
