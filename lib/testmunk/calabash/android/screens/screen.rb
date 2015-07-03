@@ -22,7 +22,11 @@ module Testmunk
       def await(wait_opts={:timeout => 40})
         $logger.info('wait for') { "#{self.class.name} screen, opts: #{wait_opts}" }
 
-        @driver.send :wait_for_elements_exist, traits, wait_opts
+        if traits.kind_of?(Array)
+          traits.each { |t| @driver.send :wait_for_element_exists, t.uiquery, wait_opts }
+        else
+          @driver.send :wait_for_element_exists, traits.uiquery, wait_opts
+        end
       end
     end
   end
