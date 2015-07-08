@@ -3,6 +3,8 @@ require 'calabash-cucumber/operations'
 require 'testmunk/calabash/logger'
 require 'testmunk/calabash/ios/utils/utils'
 require 'testmunk/calabash/ios/screens/views/view'
+require 'testmunk/calabash/ios/screens/views/button'
+require 'testmunk/calabash/ios/screens/views/input_field'
 
 
 module Testmunk
@@ -78,6 +80,14 @@ module Testmunk
         else
           @driver.send :wait_for_element_exists, traits.uiquery, wait_opts
         end
+      end
+
+      def field(opts)
+        InputField.new(@driver, opts)
+      end
+
+      def button(opts)
+        Button.new(@driver, opts)
       end
     end
 

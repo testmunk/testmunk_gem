@@ -14,9 +14,18 @@ module Testmunk
       attr_accessor :uiquery
 
 
-      def initialize(driver, uiquery)
+      def initialize(driver, query_opts)
         @driver = driver
-        @uiquery = uiquery
+
+        if query_opts.is_a?(Hash)
+          if query_opts.has_key?(:id)
+            @uiquery = "* id:'#{query_opts[:id]}'"
+          elsif query_opts.has_key?(:marked)
+            @uiquery = "* marked:'#{query_opts[:marked]}'"
+          end
+        else
+          @uiquery = query_opts
+        end
       end
 
       def method_missing(sym, *args, &block)
