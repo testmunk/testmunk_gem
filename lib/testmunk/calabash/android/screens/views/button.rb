@@ -5,8 +5,8 @@ module Testmunk
   module Android
 
     class Button < View
-      def initialize(driver, uiquery, after_touch_sleep = 0)
-        super driver, uiquery
+      def initialize(driver, uiquery, name = nil, after_touch_sleep = 0)
+        super driver, uiquery, name
 
         @after_touch_sleep = after_touch_sleep
       end

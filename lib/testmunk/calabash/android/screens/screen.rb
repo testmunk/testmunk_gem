@@ -8,11 +8,11 @@ module Testmunk
     class Screen < View
 
       def initialize(driver)
-        super driver, "*"
+        super driver, '*'
       end
 
       def traits
-        raise "You should define a traits method"
+        raise 'You should define a traits method'
       end
 
       def dump
@@ -23,9 +23,9 @@ module Testmunk
         $logger.info('wait for') { "#{self.class.name} screen, opts: #{wait_opts}" }
 
         if traits.kind_of?(Array)
-          traits.each { |t| @driver.send :wait_for_element_exists, t.uiquery, wait_opts }
+          traits.each { |t| t.await }
         else
-          @driver.send :wait_for_element_exists, traits.uiquery, wait_opts
+          traits.await
         end
       end
     end
