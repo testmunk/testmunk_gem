@@ -11,8 +11,8 @@ module Testmunk
         @after_touch_sleep = after_touch_sleep
       end
 
-      def touch
-        super
+      def touch(opts={})
+        super opts
         sleep @after_touch_sleep.to_f
       end
     end
