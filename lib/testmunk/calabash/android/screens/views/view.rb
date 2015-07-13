@@ -4,15 +4,16 @@ module Testmunk
   module Android
 
     class View
-      attr_accessor :uiquery
+      attr_accessor :uiquery, :name
 
 
-      def initialize(driver, uiquery)
+      def initialize(driver, uiquery, name=nil)
         @driver = driver
         @uiquery = uiquery
+        @name = name
       end
 
-      def _name
+      def type
         self.class
       end
 
@@ -37,7 +38,16 @@ module Testmunk
       end
 
       def await(wait_opts={:timeout => 30})
-        wait_for_element_exist(@uiquery, wait_opts)
+        if @name
+          wait_opts[:timeout_message] =
+              "Timeout waiting for element: #{@name}, of type: #{type}, with label: #{@uiquery}"
+        else
+          wait_opts[:timeout_message] = "Timeout waiting for element of type: #{type}, with label: #{@uiquery}"
+        end
+
+        $logger.info('await') { "#{@uiquery}, opts: #{wait_opts}" }
+
+        @driver.send :wait_for_element_exists, @uiquery, wait_opts
       end
 
       def wait_to_disappear(wait_opts={:timeout => 30})
@@ -46,29 +56,18 @@ module Testmunk
         wait_for(wait_opts) { !exists? }
       end
 
-      def touch(uiquery = @uiquery, options={})
-        wait_for_element_exist(uiquery, {:timeout => 15}) unless uiquery.nil?
+      def touch(options={})
+        await
 
-        $logger.info('touch') { "#{uiquery}" }
+        $logger.info('touch') { "#{@uiquery}" }
 
-        @driver.send :touch, uiquery, options
+        @driver.send :touch, @uiquery, options
       end
 
       def adb_swipe(from_x, to_x, from_y, to_y)
         $logger.info('adb swipe') { "from_x: #{from_x}, to_x: #{to_x}, from_y: #{from_y}, to_y: #{to_y}" }
 
         %x{#{default_device.adb_command} shell input swipe #{from_x} #{from_y} #{to_x} #{to_y}}
-      end
-
-      def wait_for_element_exist(uiquery, wait_opts={:timeout => 30})
-        uiquery = uiquery[:query] if uiquery.is_a?(Hash)
-        wait_opts[:timeout_message] = "Timeout (#{wait_opts[:timeout]} seconds) " \
-       "waiting for view: '#{_name}' accessible by: '#{uiquery}'"
-
-
-        $logger.info('wait for') { "#{uiquery}, opts: #{wait_opts.dup.except(:timeout_message)}" }
-
-        @driver.send :wait_for_elements_exist, [uiquery], wait_opts
       end
 
       def go_back

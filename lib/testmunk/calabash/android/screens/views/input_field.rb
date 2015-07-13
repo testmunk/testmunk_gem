@@ -9,11 +9,11 @@ module Testmunk
       attr_accessor :view_id
 
 
-      def initialize(driver, view_id)
+      def initialize(driver, view_id, name=nil)
         if view_id.include? 'id:'
-          super driver, view_id
+          super driver, view_id, name
         else
-          super driver, "* id:'#{view_id}'"
+          super driver, "* id:'#{view_id}'", name
         end
 
         @view_id = view_id
