@@ -102,8 +102,6 @@ module Testmunk
       end
 
       def keyboard_enter_text(text, opts={:char_by_char => false, :wait_after_char => 0.05})
-        await
-
         if opts[:char_by_char]
           count = 1
           while true do
