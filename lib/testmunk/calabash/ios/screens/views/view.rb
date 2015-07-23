@@ -56,7 +56,7 @@ module Testmunk
       end
 
       def touch(uiquery = @uiquery, options={})
-        wait_for_element_exist(uiquery, {:timeout => 15}) unless uiquery.nil?
+        await(options)
 
         Testmunk::Log::log('touch', "#{uiquery}, opts: #{options}")
 

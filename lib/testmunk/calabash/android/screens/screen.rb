@@ -28,6 +28,20 @@ module Testmunk
           traits.await
         end
       end
+
+      def swipe_screen(dir)
+        if dir == :left
+          perform_action('drag', 80, 10, 50, 50, 20)
+        elsif dir == :right
+          perform_action('drag', 80, 10, 50, 50, 20)
+        elsif dir == :up
+          perform_action('drag', 50, 50, 80, 30, 20)
+        elsif dir == :down
+          perform_action('drag', 50, 50, 30, 80, 20)
+        else
+          super dir
+        end
+      end
     end
   end
 end
