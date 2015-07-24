@@ -27,7 +27,7 @@ module Testmunk
       end
 
       def clear
-        clear_text
+        clear_text(@uiquery)
       end
     end
 
