@@ -25,6 +25,10 @@ module Testmunk
       def insert_text(text)
         insert_text_into @uiquery, text, opts={:char_by_char => false}
       end
+
+      def clear
+        clear_text
+      end
     end
 
   end
