@@ -1,21 +1,12 @@
 require 'calabash-android/operations'
+require 'testmunk/calabash/screens/views/view'
+require 'testmunk/calabash/android/screens/views/views'
 
 module Testmunk
   module Android
 
-    class View
-      attr_accessor :uiquery, :name
-
-
-      def initialize(driver, uiquery, name=nil)
-        @driver = driver
-        @uiquery = uiquery
-        @name = name
-      end
-
-      def type
-        self.class
-      end
+    class View < Testmunk::View
+      extend Testmunk::Android::Views
 
       def method_missing(sym, *args, &block)
         @driver.send sym, *args, &block

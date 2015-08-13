@@ -2,16 +2,18 @@ require 'calabash-cucumber'
 require 'calabash-cucumber/operations'
 require 'testmunk/calabash/logger'
 require 'testmunk/calabash/ios/utils/utils'
+require 'testmunk/calabash/ios/screens/views/views'
 
 
 module Testmunk
   module IOS
 
     class View
+      extend Testmunk::IOS::Views
       include Calabash::Cucumber::Operations
       include Utils
 
-      attr_accessor :uiquery
+      attr_accessor :uiquery, :driver
 
 
       def initialize(driver, query_opts)
@@ -129,6 +131,10 @@ module Testmunk
 
       def color
         query(@uiquery, :color)[0]
+      end
+
+      def label
+        query(@uiquery)[0]['label']
       end
     end
 
