@@ -83,5 +83,8 @@ module Testmunk
       rect['height']
     end
 
+    def count
+      query(@uiquery).size
+    end
   end
 end
