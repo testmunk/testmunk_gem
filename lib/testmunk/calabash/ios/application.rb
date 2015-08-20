@@ -1,18 +1,10 @@
 require 'calabash-cucumber/operations'
-
+require 'testmunk/calabash/application'
 
 module Testmunk
   module IOS
-
-    class Application
+    class Application < Testmunk::Application
       include Calabash::Cucumber::Operations
-
-      attr_accessor :current_screen
-
-
-      def initialize(driver)
-        @driver = driver
-      end
     end
   end
 end

@@ -1,5 +1,11 @@
 module Testmunk
   module Android
+
+    #   TODO
+    #   Refactor: self.respond_to?(:driver) ? driver : self
+    #   It's the way it is because we want to use it a Screen (need driver object here)
+    #   as well as in the irb console (self)
+    #
     module Views
       # @example
       #
@@ -14,12 +20,12 @@ module Testmunk
           name, query = *args
           define_method(name) do
             require 'testmunk/calabash/android/screens/views/button'
-            build_view(Testmunk::Android::Button, query)
+            Testmunk::Android::Button.new(self.respond_to?(:driver) ? driver : self, query)
           end
         else
           query = args[0]
           require 'testmunk/calabash/android/screens/views/button'
-          build_view(Testmunk::Android::Button, query)
+          Testmunk::Android::Button.new(self.respond_to?(:driver) ? driver : self, query)
         end
       end
 
@@ -28,12 +34,12 @@ module Testmunk
           name, query = *args
           define_method(name) do
             require 'testmunk/calabash/android/screens/views/input_field'
-            build_view(Testmunk::Android::InputField, query)
+            Testmunk::Android::InputField.new(self.respond_to?(:driver) ? driver : self, query)
           end
         else
           query = args[0]
           require 'testmunk/calabash/android/screens/views/input_field'
-          build_view(Testmunk::Android::InputField, query)
+          Testmunk::Android::InputField.new(self.respond_to?(:driver) ? driver : self, query)
         end
       end
 
@@ -42,22 +48,12 @@ module Testmunk
           name, query = *args
           define_method(name) do
             require 'testmunk/calabash/android/screens/views/label'
-            build_view(Testmunk::Android::Label, query)
+            Testmunk::Android::Label.new(self.respond_to?(:driver) ? driver : self, query)
           end
         else
           query = args[0]
           require 'testmunk/calabash/android/screens/views/label'
-          build_view(Testmunk::Android::Label, query)
-        end
-      end
-
-      def build_view(clazz, query)
-        if query.is_a?(Hash)
-          if query.key?(:marked)
-            clazz.new(@driver, "* marked:'#{query[:marked]}'")
-          end
-        else
-          clazz.new(@driver, query)
+          Testmunk::Android::Label.new(self.respond_to?(:driver) ? driver : self, query)
         end
       end
     end
