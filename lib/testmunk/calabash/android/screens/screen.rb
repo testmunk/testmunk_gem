@@ -1,11 +1,13 @@
 require 'json'
 require 'testmunk/calabash/android/screens/views/view'
-
+require 'testmunk/calabash/android/screens/views/views'
 
 module Testmunk
   module Android
 
     class Screen < View
+      extend Views
+
       def initialize(driver)
         super driver, '*'
       end
@@ -36,6 +38,10 @@ module Testmunk
         else
           super dir
         end
+      end
+
+      def touch_percentages(x, y)
+        perform_action('click_on_screen', x, y)
       end
     end
   end
