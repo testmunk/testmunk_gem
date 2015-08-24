@@ -56,6 +56,20 @@ module Testmunk
           Testmunk::Android::Label.new(self.respond_to?(:driver) ? driver : self, query)
         end
       end
+
+      def view(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/android/screens/views/view'
+            Testmunk::Android::View.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/android/screens/views/view'
+          Testmunk::Android::View.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
     end
   end
 end

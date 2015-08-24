@@ -26,6 +26,66 @@ module Testmunk
         go_back
         sleep(0.5)
       end
+
+      def button(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/android/screens/views/button'
+            Testmunk::Android::Button.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/android/screens/views/button'
+          Testmunk::Android::Button.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
+
+      # TODO Refactor
+      # These methods are copy pasted from views.rb
+      # Without having them here, view('*'), etc. do not work
+      #
+      def field(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/android/screens/views/input_field'
+            Testmunk::Android::InputField.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/android/screens/views/input_field'
+          Testmunk::Android::InputField.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
+
+      def text(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/android/screens/views/label'
+            Testmunk::Android::Label.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/android/screens/views/label'
+          Testmunk::Android::Label.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
+
+      def view(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/android/screens/views/view'
+            Testmunk::Android::View.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/android/screens/views/view'
+          Testmunk::Android::View.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
     end
   end
 end

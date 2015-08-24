@@ -26,6 +26,7 @@ module Testmunk
 
       def self.sample_app_class(appName)
         "require 'testmunk/calabash/android/application'
+require 'testmunk/calabash/android/screens/screen'
 
 class #{appName}App < Testmunk::Android::Application
 
