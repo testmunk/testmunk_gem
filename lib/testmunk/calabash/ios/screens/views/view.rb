@@ -11,8 +11,6 @@ module Testmunk
 
     class View < Testmunk::View
       extend Testmunk::IOS::Views
-      include Calabash::Cucumber::Operations
-      include Utils
 
       def hidden?
         # todo: research when it 'isHidden'
@@ -77,6 +75,62 @@ module Testmunk
 
       def label
         query(@uiquery)[0]['label']
+      end
+
+      def button(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/ios/screens/views/button'
+            Testmunk::IOS::Button.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/ios/screens/views/button'
+          Testmunk::IOS::Button.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
+
+      def field(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/ios/screens/views/input_field'
+            Testmunk::IOS::InputField.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/ios/screens/views/input_field'
+          Testmunk::IOS::InputField.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
+
+      def text(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/ios/screens/views/label_view'
+            Testmunk::IOS::LabelView.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/ios/screens/views/label_view'
+          Testmunk::IOS::LabelView.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
+
+      def view(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/ios/screens/views/view'
+            Testmunk::IOS::View.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/ios/screens/views/view'
+          Testmunk::IOS::View.new(self.respond_to?(:driver) ? driver : self, query)
+        end
       end
     end
 

@@ -11,9 +11,7 @@ module Testmunk
   module IOS
 
     class Screen < View
-      include Calabash::Cucumber::Operations
       include Utils
-
 
       def initialize(driver)
         @driver = driver

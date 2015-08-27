@@ -54,7 +54,7 @@ module Testmunk
 
       Testmunk::Log::log('touch', "#{@uiquery}, opts: #{options}")
 
-      super @uiquery, options
+      @driver.send :touch, @uiquery, options
     end
 
     def exists?

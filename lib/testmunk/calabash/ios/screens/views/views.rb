@@ -56,6 +56,20 @@ module Testmunk
           Testmunk::IOS::LabelView.new(self.respond_to?(:driver) ? driver : self, query)
         end
       end
+
+      def view(*args)
+        if args.length > 1
+          name, query = *args
+          define_method(name) do
+            require 'testmunk/calabash/ios/screens/views/view'
+            Testmunk::IOS::View.new(self.respond_to?(:driver) ? driver : self, query)
+          end
+        else
+          query = args[0]
+          require 'testmunk/calabash/ios/screens/views/view'
+          Testmunk::IOS::View.new(self.respond_to?(:driver) ? driver : self, query)
+        end
+      end
     end
   end
 end
