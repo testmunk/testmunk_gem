@@ -70,6 +70,10 @@ def not_implemented
   raise NotImplementedError
 end
 
+def ask(*args)
+  puts(*args)
+  gets.strip
+end
 
 options = {}
 optparse = OptionParser.new do |opts|
@@ -117,6 +121,11 @@ case options['option']
                                            conf.device(options['device']).endpoint,
                                            conf.bundle_id,
                                            conf.bundle_path)
+
+  when 'gen'
+    appName = ask "Your app name? E.g 'Maps'\nNote that: 'App' will be added at the end"
+    Testmunk::Android::Utils.createProject(appName)
+
   else
     puts optparse
     show_help

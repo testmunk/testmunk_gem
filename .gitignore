@@ -21,5 +21,24 @@ tmp
 *.a
 mkmf.log
 .idea
-
+.irb-history
+*.png
 lib/testmunk/calabash/android/app-app_conf.rb
+
+test_servers
+*.ipa
+*.apk
+*.irbrc
+
+*.png
+*.zip
+.irb-history
+
+# Lukas
+.tm.yaml
+app/
+features/android/.pryrc
+.idea
+test.feature
+resigned
+runner.rb

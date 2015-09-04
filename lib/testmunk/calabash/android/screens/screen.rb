@@ -1,11 +1,12 @@
 require 'json'
 require 'testmunk/calabash/android/screens/views/view'
-
+require 'testmunk/calabash/android/screens/views/views'
 
 module Testmunk
   module Android
 
     class Screen < View
+      extend Views
 
       def initialize(driver)
         super driver, '*'
@@ -15,12 +16,8 @@ module Testmunk
         raise 'You should define a traits method'
       end
 
-      def dump
-        $logger.info('views dump') { "#{JSON.pretty_generate(query('*'))}" }
-      end
-
       def await(wait_opts={:timeout => 40})
-        $logger.info('wait for') { "#{self.class.name} screen, opts: #{wait_opts}" }
+        Testmunk::Log::log('wait for', "#{self.class.name} screen, opts: #{wait_opts}")
 
         if traits.kind_of?(Array)
           traits.each { |t| t.await }
@@ -41,6 +38,10 @@ module Testmunk
         else
           super dir
         end
+      end
+
+      def touch_percentages(x, y)
+        perform_action('click_on_screen', x, y)
       end
     end
   end
