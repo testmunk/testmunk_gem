@@ -19,6 +19,8 @@ module Testmunk
           "* id:'#{query[:id]}'"
         elsif query.has_key?(:marked)
           "* marked:'#{query[:marked]}'"
+        elsif query.has_key?(:text_contains)
+          "* {text CONTAINS '#{query[:text_contains]}'}"
         end
       else
         query
