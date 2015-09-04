@@ -17,12 +17,10 @@ module Testmunk
         !query(@uiquery, 'isHidden').empty?
       end
 
-      def swipe(dir, options={:query => @uiquery})
-        wait_for_element_exist(options[:query]) unless options[:query].nil?
+      def swipe(dir, opts)
+        Testmunk::Log::log('swipe', "#{dir}, opts: #{opts}")
 
-        Testmunk::Log::log('swipe', "#{dir}, opts: #{options}")
-
-        super dir, options
+        super dir, opts
 
         sleep(2)
       end
@@ -44,8 +42,6 @@ module Testmunk
       end
 
       def keyboard_enter_text(text, opts={:char_by_char => false, :wait_after_char => 0.05})
-        await
-
         if opts[:char_by_char]
           count = 1
           while true do
@@ -75,6 +71,11 @@ module Testmunk
 
       def label
         query(@uiquery)[0]['label']
+      end
+
+      # Presses next or done button on the soft keyboard
+      def done
+        super
       end
 
       def button(*args)
