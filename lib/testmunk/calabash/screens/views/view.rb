@@ -31,6 +31,17 @@ module Testmunk
       self.class
     end
 
+    def print
+      params = parameters
+
+      out = "#{params['class']}"
+      out << ', id: ' + params['id'] if params['id']
+      out << ', label: ' + params['label'] if params['label']
+      out << ', text: ' + params['text'] if params['text']
+
+      out
+    end
+
     def method_missing(sym, *args, &block)
       @driver.send sym, *args, &block
     end
@@ -85,6 +96,10 @@ module Testmunk
 
     def count
       query(@uiquery).size
+    end
+
+    def parameters
+      query(@uiquery).first
     end
   end
 end
