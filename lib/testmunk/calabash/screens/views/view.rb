@@ -1,4 +1,6 @@
 require 'testmunk/calabash/logger'
+require 'testmunk/calabash/utils/query'
+
 
 module Testmunk
 
@@ -32,14 +34,7 @@ module Testmunk
     end
 
     def print
-      params = parameters
-
-      out = "#{params['class']}"
-      out << ', id: ' + params['id'] if params['id']
-      out << ', label: ' + params['label'] if params['label']
-      out << ', text: ' + params['text'] if params['text']
-
-      out
+      Testmunk::Utils::Query::print_params(parameters)
     end
 
     def method_missing(sym, *args, &block)
