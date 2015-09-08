@@ -25,6 +25,8 @@ module Testmunk
         Testmunk::Log::log('enter text', text)
 
         enter_text(@uiquery, text)
+
+        self
       end
 
       def do_send
