@@ -54,6 +54,8 @@ module Testmunk
     end
 
     def wait_to_disappear(opts={:timeout => 30})
+      Testmunk::Log::log('wait to disappear', "#{@uiquery}, opts: #{opts}")
+
       wait_for(opts) { !exists? }
     end
 
