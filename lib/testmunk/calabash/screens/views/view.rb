@@ -50,7 +50,12 @@ module Testmunk
     def await(opts={:timeout => 30})
       Testmunk::Log::log('await', "#{@uiquery}, opts: #{opts}")
 
-      @driver.send :wait_for_element_exists, @uiquery, opts
+      begin
+
+        @driver.send :wait_for_element_exists, @uiquery, opts
+      rescue
+        raise RuntimeError.new("Timeout waiting for element: #{@uiquery}. Waited for: #{opts[:timeout]} seconds.")
+      end
     end
 
     def wait_to_disappear(opts={:timeout => 30})
