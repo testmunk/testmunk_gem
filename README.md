@@ -20,7 +20,7 @@
 
 Add the following lines in your console or .irbrc (configuration file for the irb console):
 
-- iOS
+#### iOS
 
 ```
 require 'testmunk/calabash/ios/utils/query'
@@ -73,4 +73,55 @@ logo_home
 CartIcon
 ```
 
+### Sample .irbrc files
 
+#### Android
+```
+# aapt dump badging *.apk
+ENV['MAIN_ACTIVITY']="com.myapp.app" 
+ENV['APP_PATH']="app/android.apk"
+ENV['TEST_APP_PATH']="test_servers/532751eb4f664e849479e59fa5646236_0.5.12.apk"
+
+require "awesome_print"
+AwesomePrint.irb!
+
+require 'calabash-android/operations'
+extend Calabash::Android::Operations
+
+require 'testmunk/calabash/utils/query'
+extend Testmunk::Utils::Query
+
+require 'testmunk/calabash/android/screens/views/views'
+extend Testmunk::Android::Views
+
+$LOAD_PATH.unshift File.expand_path("features")
+
+require 'som/my_app'
+@app = MyApp.new(self)
+```
+
+#### iOS
+```
+ENV['DEVICE_ENDPOINT']="http://192.168.2.103:37265"
+ENV['DEVICE_TARGET']="dc0c718fc66af52f2b6f6ced97b515ddc1c54d21" 
+ENV['APP_BUNDLE_PATH']="app/App.ipa"
+ENV['BUNDLE_ID']="com.myapp"
+ENV['NO_STOP']='1'
+
+require "awesome_print"
+AwesomePrint.irb!
+
+require 'calabash-cucumber/operations'
+extend Calabash::Cucumber::Operations
+
+require 'testmunk/calabash/utils/query'
+extend Testmunk::Utils::Query
+
+require 'testmunk/calabash/ios/screens/views/views'
+extend Testmunk::IOS::Views
+
+$LOAD_PATH.unshift File.expand_path("features")
+
+require 'som/ios/my_app'
+@app = MyApp.new(self)
+```
