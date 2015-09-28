@@ -15,7 +15,7 @@ module Testmunk
         await
         Testmunk::Log::log('clear text', @uiquery)
 
-        clear_text(@uiquery)
+        clear_text_in(@uiquery)
       end
 
       def insert_text(text)
