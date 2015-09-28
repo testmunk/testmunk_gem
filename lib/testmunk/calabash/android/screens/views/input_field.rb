@@ -38,7 +38,10 @@ module Testmunk
         await
         perform_action('press_user_action_button', 'done')
       end
-    end
 
+      def done
+        do_done
+      end
+    end
   end
 end
