@@ -22,7 +22,7 @@ module Testmunk
         press_back_button
       end
 
-      def close_keyboard
+      def hide_keyboard
         go_back
         sleep(0.5)
       end
