@@ -9,7 +9,7 @@ module Testmunk
                   :name,
                   :driver
 
-    def initialize(driver, query, name=nil)
+    def initialize(driver, query='*', name=nil)
       @driver = driver
       @name = name
       @uiquery = create_uiquery(query)
