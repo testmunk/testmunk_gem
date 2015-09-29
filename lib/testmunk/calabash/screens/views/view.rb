@@ -51,7 +51,6 @@ module Testmunk
       Testmunk::Log::log('await', "#{@uiquery}, opts: #{opts}")
 
       begin
-
         @driver.send :wait_for_element_exists, @uiquery, opts
       rescue
         raise RuntimeError.new("Timeout waiting for element: #{@uiquery}. Waited for: #{opts[:timeout]} seconds.")
