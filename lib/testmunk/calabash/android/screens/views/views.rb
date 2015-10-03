@@ -1,32 +1,20 @@
-require 'calabash-android/operations'
-require 'testmunk/calabash/screens/views/view'
-require 'testmunk/calabash/android/screens/views/views'
-
 module Testmunk
   module Android
 
-    class View < Testmunk::View
-      extend Testmunk::Android::Views
-
-      def dump
-        Testmunk::Log::log('views dump', JSON.pretty_generate(query(@uiquery)))
-      end
-
-      def adb_swipe(from_x, to_x, from_y, to_y)
-        Testmunk::Log::log('adb swipe', "from_x: #{from_x}, to_x: #{to_x}, from_y: #{from_y}, to_y: #{to_y}")
-
-        %x{#{default_device.adb_command} shell input swipe #{from_x} #{from_y} #{to_x} #{to_y}}
-      end
-
-      def go_back
-        press_back_button
-      end
-
-      def hide_keyboard
-        go_back
-        sleep(0.5)
-      end
-
+    #   TODO
+    #   Refactor: self.respond_to?(:driver) ? driver : self
+    #   It's the way it is because we want to use it a Screen (need driver object here)
+    #   as well as in the irb console (self)
+    #
+    module Views
+      # @example
+      #
+      #   button :orange_next, { marked:'OrangeNextIcon' }
+      #     - will create a method named 'orange_next'
+      #
+      #   button({ marked:'OrangeNextIcon' })
+      #     - just return a button instance
+      #
       def button(*args)
         if args.length > 1
           name, query = *args
@@ -41,10 +29,6 @@ module Testmunk
         end
       end
 
-      # TODO Refactor
-      # These methods are copy pasted from views.rb
-      # Without having them here, view('*'), etc. do not work
-      #
       def field(*args)
         if args.length > 1
           name, query = *args

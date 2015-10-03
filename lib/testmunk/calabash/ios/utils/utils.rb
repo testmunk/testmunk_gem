@@ -6,11 +6,11 @@ module Testmunk
     module Utils
       include Calabash::Cucumber::Operations
 
-        def is_ios6_version?
-            version = launcher.ios_version
-            version.start_with?('6')
-        end
-      
+      def is_ios6_version?
+        version = launcher.ios_version
+        version.start_with?('6')
+      end
+
       def is_iphone?
         if ENV['DEVICE_TARGET'] == "simulator"
           server_version['simulator_device'] =~ /iPhone(.*)/
@@ -82,6 +82,32 @@ module Testmunk
         $landscape_mode = false
       end
 
+      def self.resign(file, provision, wildcard, cert, bundle_id='')
+        system "BRIAR_DONT_OPEN_ON_RESIGN=1 briar resign #{file} "\
+          "#{provision} #{wildcard} \"#{cert}\" #{bundle_id}"
+      end
+
+      def self.install(file)
+        system "ideviceinstaller -i #{file}"
+      end
+
+      def self.run(uuid, endpoint, bundle_id, bundle_path, feature='')
+        cmd = "DEVICE_ENDPOINT=#{endpoint} DEVICE_TARGET=#{uuid} " \
+        "APP_BUNDLE_PATH=#{bundle_path} BUNDLE_ID=#{bundle_id} " \
+        "cucumber #{feature}"
+
+        puts cmd
+        system cmd
+      end
+
+      def self.calabash_console(uuid, endpoint, bundle_id, bundle_path)
+        cmd = "DEVICE_ENDPOINT=#{endpoint} DEVICE_TARGET=#{uuid} " \
+        "APP_BUNDLE_PATH=#{bundle_path} BUNDLE_ID=#{bundle_id} " \
+        "calabash-ios console"
+
+        puts cmd
+        system cmd
+      end
     end
   end
 end

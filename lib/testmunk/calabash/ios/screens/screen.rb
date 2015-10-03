@@ -3,15 +3,15 @@ require 'calabash-cucumber/operations'
 require 'testmunk/calabash/logger'
 require 'testmunk/calabash/ios/utils/utils'
 require 'testmunk/calabash/ios/screens/views/view'
+require 'testmunk/calabash/ios/screens/views/button'
+require 'testmunk/calabash/ios/screens/views/input_field'
 
 
 module Testmunk
   module IOS
 
     class Screen < View
-      include Calabash::Cucumber::Operations
       include Utils
-
 
       def initialize(driver)
         @driver = driver
@@ -47,8 +47,8 @@ module Testmunk
       end
 
       def is_current_screen?
-        traits.each do |trait|
-          return false unless element_exists(trait)
+        Array(traits).each do |view|
+          return false unless element_exists(view.uiquery)
         end
 
         true
@@ -73,9 +73,8 @@ module Testmunk
       def await(wait_opts={:timeout => 40})
         Testmunk::Log::log('wait for', "#{self.class.name} screen, opts: #{wait_opts}")
 
-        wait_for_elements_exist(traits, wait_opts)
+        Array(traits).each { |t| @driver.send :wait_for_element_exists, t.uiquery, wait_opts }
       end
     end
-
   end
 end

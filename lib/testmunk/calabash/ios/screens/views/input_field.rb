@@ -14,7 +14,7 @@ module Testmunk
       end
 
       def insert_text_into(uiquery, text, opts={:char_by_char => false})
-        touch(uiquery)
+        touch
         wait_for_keyboard
 
         Testmunk::Log::log('enter text', "#{uiquery}, text: #{text}")
@@ -24,6 +24,10 @@ module Testmunk
 
       def insert_text(text)
         insert_text_into @uiquery, text, opts={:char_by_char => false}
+      end
+
+      def clear
+        clear_text(@uiquery)
       end
     end
 

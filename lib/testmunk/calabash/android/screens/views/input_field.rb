@@ -6,19 +6,6 @@ module Testmunk
 
     class InputField < View
 
-      attr_accessor :view_id
-
-
-      def initialize(driver, view_id)
-        if view_id.include? 'id:'
-          super driver, view_id
-        else
-          super driver, "* id:'#{view_id}'"
-        end
-
-        @view_id = view_id
-      end
-
       def open
         touch
         sleep(0.5)
@@ -26,15 +13,20 @@ module Testmunk
 
       def clear
         await
-        $logger.info('clear text') { "#{uiquery}" }
+        Testmunk::Log::log('clear text', @uiquery)
 
-        clear_text(@uiquery)
+        clear_text_in(@uiquery)
       end
 
       def insert_text(text)
         clear
         open
+
+        Testmunk::Log::log('enter text', text)
+
         enter_text(@uiquery, text)
+
+        self
       end
 
       def do_send
@@ -46,7 +38,10 @@ module Testmunk
         await
         perform_action('press_user_action_button', 'done')
       end
-    end
 
+      def done
+        do_done
+      end
+    end
   end
 end
