@@ -1,8 +1,11 @@
 # Welcome to Testmunk
 
+Testmunk automates mobile app testing. We use real iOS and Android devices that you can access over the cloud.
 
+## Introduction to the testmunk gem
 
-
+The gem can assist you creating Calabash test framework based on the Page Object Model.
+It supports Android and iOS and contains many useful methods that are used to interact with an mobile app.    
 
 ## Getting started
 
@@ -13,6 +16,108 @@
 2. Install it
 
         sudo gem install --local testmunk-0.0.1.gem
+
+## Usage
+
+### Application
+
+In the Application class you define all screens or your app. Afterwards, you will be able to reference like `@app.screen`         
+
+Depending on the platform there are `Testmunk::Android::Application` and `Testmunk::IOS::Application` classes that you can extend.
+
+```
+require 'testmunk/calabash/ios/application'
+require_relative 'screens/account/register_screen.rb'
+require_relative 'screens/account/login_screen.rb'
+require_relative 'screens/account/welcome_screen.rb'
+
+class MyApplication < Testmunk::IOS::Application
+  def register_screen
+    @register_screen ||= RegisterScreen.new(@driver)
+  end
+
+  def login_screen
+    @login_screen ||= LoginScreen.new(@driver)
+  end
+
+  def welcome_screen
+    @welcome_screen ||= WelcomeScreen.new(@driver)
+  end
+end  
+```
+
+#### Note
+Currently, there is no need to create screen methods like `register_screen`. Just `load` or `require` your screen class and the Application class will create these methods for you.
+
+### View
+
+A basic building block. Base class for elements like `Button`, `InputField` and custom views of your app.
+
+```
+require 'testmunk/calabash/android/screens/views/view'
+
+class Menu < Testmunk::Android::View
+  button :lookaround, "* marked:'drawer_listView' descendant * marked:'Lookaround'"marked:'drawer_listView' descendant * marked:'Matches'"
+  button :settings, "* marked:'drawer_listView' descendant * marked:'Settings'"
+  button :help, {text_contains: 'Help'}
+  field :search, {marked: 'search_edit_text'}
+
+  def initialize(driver)
+    super driver, {marked: 'drawer_listView'}
+  end
+
+  def open
+    view("ImageButton contentDescription:'Open'").touch
+  end
+
+  def close
+    view('*').touch
+  end
+end
+```  
+
+`button`, `field`, `view` create elements with given name and query. For instance defining: `field :search, {marked: 'search_edit_text'}` in your screen class creates `search` field that you can refer by `@app.screen.search`.
+
+### Screen
+
+A screen contains all it's elements. `Application` class have reference to it.
+
+```
+require 'testmunk/calabash/android/screens/views/view'
+require 'testmunk/calabash/android/screens/screen'
+
+class HomeScreen < Testmunk::Android::Screen
+  class Menu < Testmunk::Android::View
+    button :lookaround, "* marked:'drawer_listView' descendant * marked:'Lookaround'"marked:'drawer_listView' descendant * marked:'Matches'"
+    button :settings, "* marked:'drawer_listView' descendant * marked:'Settings'"
+    button :help, {text_contains: 'Help'}
+    field :search, {marked: 'search_edit_text'}
+
+    def initialize(driver)
+      super driver, {marked: 'drawer_listView'}
+    end
+
+    def open
+      view("ImageButton contentDescription:'Open'").touch
+    end
+
+    def close
+      view('*').touch
+    end
+  end
+
+  button :lookaround, {marked: 'menu_lookaround'}
+  button :matches, {marked: 'menu_matches'}
+
+  def traits
+    view({marked:'activity_main_layout'})
+  end
+
+  def menu
+    Menu.new(@driver)
+  end
+end
+```
 
 ## Calabash console
 
@@ -26,15 +131,15 @@ Add the following lines in your console or .irbrc (configuration file for the ir
 require 'testmunk/calabash/ios/utils/query'
 extend Testmunk::IOS::Utils::Query
 ```
-<br />	
+<br />
 
 ```
  >> all
- 
+
 UIWindow
 UIView
 UISearchBarBackground
-UISearchBarTextField, label: Buscar, text: 
+UISearchBarTextField, label: Buscar, text:
 _UISearchBarSearchFieldBackgroundView
 _UISearchBarSearchFieldBackgroundView
 UIImageView
@@ -52,9 +157,9 @@ LICustomDivider
 ```
 <br />
 
-```	
+```
 >> all :label
-	
+
 Buscar
 Buscar
 LIHomeViewController_Teaser5
@@ -78,7 +183,7 @@ CartIcon
 #### Android
 ```
 # aapt dump badging *.apk
-ENV['MAIN_ACTIVITY']="com.myapp.app" 
+ENV['MAIN_ACTIVITY']="com.myapp.app"
 ENV['APP_PATH']="app/android.apk"
 ENV['TEST_APP_PATH']="test_servers/532751eb4f664e849479e59fa5646236_0.5.12.apk"
 
@@ -103,7 +208,7 @@ require 'som/my_app'
 #### iOS
 ```
 ENV['DEVICE_ENDPOINT']="http://192.168.2.103:37265"
-ENV['DEVICE_TARGET']="dc0c718fc66af52f2b6f6ced97b515ddc1c54d21" 
+ENV['DEVICE_TARGET']="dc0c718fc66af52f2b6f6ced97b515ddc1c54d21"
 ENV['APP_BUNDLE_PATH']="app/App.ipa"
 ENV['BUNDLE_ID']="com.myapp"
 ENV['NO_STOP']='1'
@@ -125,3 +230,7 @@ $LOAD_PATH.unshift File.expand_path("features")
 require 'som/ios/my_app'
 @app = MyApp.new(self)
 ```
+
+## Contribute
+
+You are more than welcome to improve the gem. Just fork the project and send a pull request. Remember to document your code.
