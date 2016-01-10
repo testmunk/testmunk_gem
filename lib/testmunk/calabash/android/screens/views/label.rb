@@ -10,6 +10,10 @@ module Testmunk
         query("#{uiquery}", :text)[0].to_s
       end
 
+      def text
+        to_s
+      end
+
       def to_i
         to_s.to_i
       end
