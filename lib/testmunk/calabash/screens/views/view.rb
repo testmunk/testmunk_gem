@@ -29,6 +29,10 @@ module Testmunk
       end
     end
 
+    def descendant(query)
+      view("#{@uiquery} descendant #{create_uiquery(query)}")
+    end
+
     def type
       self.class
     end
