@@ -119,6 +119,19 @@ class HomeScreen < Testmunk::Android::Screen
 end
 ```
 
+### Example of use
+
+For getting started, we suggest checking `example/` where you can find our sample Android app with Screen Object Model.
+
+To run it use:
+
+`RESET_BETWEEN_SCENARIOS=1 calabash-android run app-debug.apk`
+
+**Note**
+Make sure you have the gem installed. See [Getting Started](#getting-started).
+
+Please visit our [blog](https://blog.testmunk.com/?s=page+object) to find more about how we use the gem.
+
 ## Calabash console
 
 ### Query
