@@ -5,7 +5,7 @@ Testmunk automates mobile app testing. We use real iOS and Android devices that 
 ## Introduction to the testmunk gem
 
 The gem can assist you creating Calabash test framework based on the Page Object Model.
-It supports Android and iOS and contains many useful methods that are used to interact with an mobile app.    
+It supports Android and iOS and contains many useful methods that are used to interact with mobile app.    
 
 ## Getting started
 
@@ -21,7 +21,7 @@ It supports Android and iOS and contains many useful methods that are used to in
 
 ### Application
 
-In the Application class you define all screens or your app. Afterwards, you will be able to reference like `@app.screen`         
+In the Application class you define all screens or your app. Afterwards, you will be able to reference them by calling `@app.screen`         
 
 Depending on the platform there are `Testmunk::Android::Application` and `Testmunk::IOS::Application` classes that you can extend.
 
