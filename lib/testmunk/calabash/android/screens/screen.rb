@@ -1,4 +1,5 @@
 require 'json'
+require 'testmunk/calabash/screens/screens'
 require 'testmunk/calabash/android/screens/views/view'
 require 'testmunk/calabash/android/screens/views/views'
 
@@ -7,24 +8,7 @@ module Testmunk
 
     class Screen < View
       extend Views
-
-      def initialize(driver)
-        super driver, '*'
-      end
-
-      def traits
-        raise 'You should define a traits method'
-      end
-
-      def await(wait_opts={:timeout => 40})
-        Testmunk::Log::log('wait for', "#{self.class.name} screen, opts: #{wait_opts}")
-
-        if traits.kind_of?(Array)
-          traits.each { |t| t.await }
-        else
-          traits.await
-        end
-      end
+      include Testmunk::Screens
 
       def swipe_screen(dir)
         if dir == :left
@@ -44,5 +28,6 @@ module Testmunk
         perform_action('click_on_screen', x, y)
       end
     end
+
   end
 end

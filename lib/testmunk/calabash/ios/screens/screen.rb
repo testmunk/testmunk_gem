@@ -2,6 +2,7 @@ require 'calabash-cucumber'
 require 'calabash-cucumber/operations'
 require 'testmunk/calabash/logger'
 require 'testmunk/calabash/ios/utils/utils'
+require 'testmunk/calabash/screens/screens'
 require 'testmunk/calabash/ios/screens/views/view'
 require 'testmunk/calabash/ios/screens/views/button'
 require 'testmunk/calabash/ios/screens/views/input_field'
@@ -12,14 +13,7 @@ module Testmunk
 
     class Screen < View
       include Utils
-
-      def initialize(driver)
-        @driver = driver
-      end
-
-      def traits
-        raise "You should define a traits method"
-      end
+      include Testmunk::Screens
 
       def method_missing(sym, *args, &block)
         @driver.send sym, *args, &block
@@ -68,12 +62,6 @@ module Testmunk
 
       def self.element(name, &block)
         define_method(name.to_s, &block)
-      end
-
-      def await(wait_opts={:timeout => 40})
-        Testmunk::Log::log('wait for', "#{self.class.name} screen, opts: #{wait_opts}")
-
-        Array(traits).each { |t| @driver.send :wait_for_element_exists, t.uiquery, wait_opts }
       end
     end
   end

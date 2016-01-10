@@ -29,6 +29,10 @@ module Testmunk
       end
     end
 
+    def descendant(query)
+      view("#{@uiquery} descendant #{create_uiquery(query)}")
+    end
+
     def type
       self.class
     end
@@ -51,11 +55,12 @@ module Testmunk
       Testmunk::Log::log('await', "#{@uiquery}, opts: #{opts}")
 
       begin
-
         @driver.send :wait_for_element_exists, @uiquery, opts
       rescue
         raise RuntimeError.new("Timeout waiting for element: #{@uiquery}. Waited for: #{opts[:timeout]} seconds.")
       end
+
+      self
     end
 
     def wait_to_disappear(opts={:timeout => 30})
@@ -88,20 +93,26 @@ module Testmunk
       element_exists("#{@uiquery} descendant * marked:'#{element}'")
     end
 
+    def parameters
+      await
+
+      query(@uiquery).first
+    end
+
     def rect
-      query(@uiquery).first['rect']
+      parameters['rect']
     end
 
     def height
+      await
+
       rect['height']
     end
 
     def count
-      query(@uiquery).size
-    end
+      await
 
-    def parameters
-      query(@uiquery).first
+      query(@uiquery).size
     end
   end
 end
