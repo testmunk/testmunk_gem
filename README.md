@@ -1,7 +1,7 @@
 
 ![alt text](https://github.com/testmunk/testmunk_gem/blob/develop/assets/testmunk_gem_github.png "testmunk gem")
 
-## An Introduction to the Testmunk gem
+## An Introduction to the Testmunk Gem
 
 The testmunk gem is a ruby gem that will assist you in creating functional UI tests with the Calabash test framework. We have been using it for some of our projects at [testmunk](https://testmunk.com/), and it has been a valuable resource in speeding up test case scripting and maintenance.
 The testmunk gem is a helper gem that assists you in the implementation of Page Objects. The Page Object Model is a design pattern to make functional UI tests more robust and maintainable. You can read more about the Page Object Framework and its implementation [here](https://blog.testmunk.com/flipboard-implementation-of-page-object-framework-for-mobile-test-automation-using-calabash/).
