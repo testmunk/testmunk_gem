@@ -1,11 +1,11 @@
-# Welcome to Testmunk
 
-Testmunk automates mobile app testing. We use real iOS and Android devices that you can access over the cloud.
+![alt text](https://github.com/testmunk/testmunk_gem/blob/develop/assets/testmunk_gem_github.png "testmunk gem")
 
-## Introduction to the testmunk gem
+## An Introduction to the Testmunk gem
 
-The gem can assist you creating Calabash test framework based on the Page Object Model.
-It supports Android and iOS and contains many useful methods that are used to interact with mobile app.    
+The testmunk gem is a ruby gem that will assist you in creating functional UI tests with the Calabash test framework. We have been using it for some of our projects at [testmunk](https://testmunk.com/), and it has been a valuable resource in speeding up test case scripting and maintenance.
+The testmunk gem is a helper gem that assists you in the implementation of Page Objects. The Page Object Model is a design pattern to make functional UI tests more robust and maintainable. You can read more about the Page Object Framework and its implementation [here](https://blog.testmunk.com/flipboard-implementation-of-page-object-framework-for-mobile-test-automation-using-calabash/).
+The testmunk helper gem supports Android and iOS and contains many useful methods that are used to interact with your mobile app. 
 
 ## Getting started
 
@@ -247,3 +247,7 @@ require 'som/ios/my_app'
 ## Contribute
 
 You are more than welcome to improve the gem. Just fork the project and send a pull request. Remember to document your code.
+
+## License
+This project is licensed under the terms of the MIT license.
+This project is in no way affiliated with Apple Inc or Google. This project is open source under the MIT license, which means you have full access to the source code and can modify it to fit your own needs. 
