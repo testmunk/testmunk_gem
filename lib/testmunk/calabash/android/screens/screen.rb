@@ -12,7 +12,7 @@ module Testmunk
 
       def swipe_screen(dir)
         if dir == :left
-          perform_action('drag', 80, 10, 50, 50, 20)
+          perform_action('drag', 10, 80, 50, 50, 20)
         elsif dir == :right
           perform_action('drag', 80, 10, 50, 50, 20)
         elsif dir == :up
