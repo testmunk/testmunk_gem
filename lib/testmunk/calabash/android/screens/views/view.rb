@@ -27,6 +27,10 @@ module Testmunk
         sleep(0.5)
       end
 
+      def exists?
+        element_exists(@uiquery)
+      end
+
       def button(*args)
         if args.length > 1
           name, query = *args
